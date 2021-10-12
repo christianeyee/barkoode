@@ -1,14 +1,15 @@
 <template>
     <v-card
         elevation="2"
-        class="mx-auto my-12"
+        class="preview mx-auto my-12"
         max-width="300"
     >
-        <v-card-title>
+        <v-card-title class="preview-title">
             {{item.store}}
         </v-card-title>
         <v-img
             :src="require('../assets/barcode.png')"
+            class="mx-auto"
             max-height="150"
             max-width="250"
         ></v-img>
@@ -30,3 +31,13 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.preview {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.preview-title {
+    letter-spacing: 0.35em;
+}
+</style>

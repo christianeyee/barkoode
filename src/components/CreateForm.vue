@@ -116,7 +116,6 @@
 
 <script>
 import PreviewCard from "./PreviewCard"
-
   const stores = ['DIGITAL TUNNEL']
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
