@@ -21,3 +21,10 @@ export default {
   }),
 };
 </script>
+
+<style>
+@font-face {
+  font-family: 'code128';
+  src: URL('assets/LibreBarcode128-Regular.ttf') format('truetype');
+}
+</style>
