@@ -10,21 +10,6 @@
                 Print barcodes.
             </p>
         </v-row>
-        <v-row class="d-flex justify-center">
-            <v-col
-            cols="8"
-            sm="6"
-          >
-            <v-select
-              v-model="form.store"
-              :items="stores"
-              color="blue darken-2"
-              label="Store"
-              outlined
-              required
-            ></v-select>
-            </v-col>
-        </v-row>
         <v-row>
           <v-col
             cols="8"
@@ -115,12 +100,13 @@
 </template>
 
 <script>
-import PreviewCard from "./PreviewCard"
-  const stores = ['DIGITAL TUNNEL']
+import PreviewCard from "./PreviewCard";
+
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'PHP',
-  })
+});
+
   export default {
     components: {
       PreviewCard,
@@ -128,7 +114,6 @@ import PreviewCard from "./PreviewCard"
 
     data () {
       const defaultForm = Object.freeze({
-        store: stores[0],
         code: '',
         description: '',
         serials: '',
@@ -144,7 +129,6 @@ import PreviewCard from "./PreviewCard"
           item: [val => (val || '').length > 0 || 'This field is required.'],
         },
         defaultForm,
-        stores,
         tags: []
       }
     },
@@ -152,7 +136,6 @@ import PreviewCard from "./PreviewCard"
     computed: {
       formIsValid () {
         return (
-          this.form.store &&
           this.form.code &&
           this.form.description &&
           this.form.serials &&
@@ -177,7 +160,6 @@ import PreviewCard from "./PreviewCard"
           for (const serial of serialNumbers) {
               if (serial.trim().length > 0) {
                 this.tags.push({
-                  store : this.form.store,
                   code,
                   description,
                   price,
@@ -188,5 +170,5 @@ import PreviewCard from "./PreviewCard"
           this.form.serials = ''
       },
     },
-  }
+};
 </script>
