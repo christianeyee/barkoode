@@ -88,12 +88,12 @@
     </v-form>
 
     <v-divider></v-divider>
+    <p class="text-h4 mt-3">Generated tags: {{tags.length}}</p>
     <v-container fluid>
-        <p class="text-h4 mt-3">Generated tags: {{tags.length}}</p>
         <PreviewCard
-        v-for="tag of tags"
-        :key="tag.serial"
-        :item="tag"
+          v-for="tag of tags"
+          :key="tag.serial"
+          :item="tag"
         ></PreviewCard>
     </v-container>
   </v-card>
@@ -102,7 +102,7 @@
 <script>
 import PreviewCard from "./PreviewCard";
 
-  const formatter = new Intl.NumberFormat('en-US', {
+const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'PHP',
 });
