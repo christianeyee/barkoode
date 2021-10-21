@@ -71,6 +71,7 @@
       <v-card-actions>
         <v-btn
           text
+          outlined
           @click="resetForm"
         >
           Reset
@@ -79,6 +80,7 @@
         <v-btn
           :disabled="!formIsValid"
           text
+          outlined 
           color="primary"
           type="submit"
         >
@@ -86,89 +88,72 @@
         </v-btn>
       </v-card-actions>
     </v-form>
-
-    <v-divider></v-divider>
-    <p class="text-h4 mt-3">Generated tags: {{tags.length}}</p>
-    <v-container fluid>
-        <PreviewCard
-          v-for="tag of tags"
-          :key="tag.serial"
-          :item="tag"
-        ></PreviewCard>
-    </v-container>
   </v-card>
 </template>
 
 <script>
-import PreviewCard from "./PreviewCard";
-
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'PHP',
 });
 
-  export default {
-    components: {
-      PreviewCard,
-    },
+export default {
+  data () {
+    const defaultForm = Object.freeze({
+      code: '',
+      description: '',
+      serials: '',
+      price: null,
+    })
 
-    data () {
-      const defaultForm = Object.freeze({
-        code: '',
-        description: '',
-        serials: '',
-        price: null,
-      })
-
-      return {
-        form: Object.assign({}, defaultForm),
-        rules: {
-          price: [
-            val => val > 0 || `Invalid price!`,
-          ],
-          item: [val => (val || '').length > 0 || 'This field is required.'],
-        },
-        defaultForm,
-        tags: []
-      }
-    },
-
-    computed: {
-      formIsValid () {
-        return (
-          this.form.code &&
-          this.form.description &&
-          this.form.serials &&
-          this.form.price > 0
-        )
+    return {
+      form: Object.assign({}, defaultForm),
+      rules: {
+        price: [
+          val => val > 0 || `Invalid price!`,
+        ],
+        item: [val => (val || '').length > 0 || 'This field is required.'],
       },
-    },
+      defaultForm,
+    }
+  },
 
-    methods: {
-      resetForm () {
-        this.$refs.form.reset()
-        this.form = Object.assign({}, this.defaultForm)
-        this.tags = []
-      },
-      submit () {
-          const price = formatter.format(this.form.price)
-          const description = this.form.description.toUpperCase();
-          const code = this.form.code.toUpperCase();
-
-          this.tags = []
-          const serialNumbers = [...new Set(this.form.serials.split("\n"))]
-          for (const serial of serialNumbers) {
-              if (serial.trim().length > 0) {
-                this.tags.push({
-                  code,
-                  description,
-                  price,
-                  serial
-                })
-              }
-          }
-          this.form.serials = ''
-      },
+  computed: {
+    formIsValid () {
+      return (
+        this.form.code &&
+        this.form.description &&
+        this.form.serials &&
+        this.form.price > 0
+      )
     },
+  },
+
+  methods: {
+    resetForm () {
+      this.$refs.form.reset()
+      this.form = Object.assign({}, this.defaultForm)
+    },
+    submit () {
+        const price = formatter.format(this.form.price)
+        const description = this.form.description.toUpperCase();
+        const code = this.form.code.toUpperCase();
+
+        const tags = []
+        const serialNumbers = [...new Set(this.form.serials.split("\n"))]
+        for (const serial of serialNumbers) {
+            if (serial.trim().length > 0) {
+              tags.push({
+                code,
+                description,
+                price,
+                serial
+              })
+            }
+        }
+        this.form.serials = ''
+        this.$emit('preview', tags);
+    },
+  },
 };
 </script>

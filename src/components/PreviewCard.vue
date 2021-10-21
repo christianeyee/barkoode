@@ -1,9 +1,8 @@
 <template>
     <div class="wrapper">
-        <button @click="print">Print</button>
-        <div ref="divToPrint" id="divToPrint">
+        <div ref="divToImg" id="divToImg">
             <div>
-                <canvas id="barcode"></canvas>
+                <img class="barcode" :id="item.serial"/>
             </div>
             <div class="description">
                 {{ item.description }}
@@ -11,8 +10,8 @@
                 {{ item.code }}
             </div>
         </div>
-        <img id="barcodeImg" :src="output" style="display:none">
-        <canvas id="barcodeCanvas" style="display:none; width:400; height:198;"></canvas>
+        <!-- <img id="barcodeImg" :src="output" style="display:none">
+        <canvas id="barcodeCanvas" style="display:none; width:400; height:198;"></canvas> -->
     </div>
 </template>
 
@@ -35,19 +34,19 @@ export default {
 
     mounted: function () {
         this.$nextTick(function () {
-            JsBarcode("#barcode", this.item.serial, {
-                width: 2,
-                height: 100,
+            JsBarcode("#" + this.item.serial, this.item.serial, {
+                width: 1.5,
+                height: 75,
                 font: "Courier New",
-                fontSize: 20,
-                margin: 1,
+                fontSize: 15,
+                margin: 4,
             });
         })
     },
 
     methods: {
         async print() {
-            const el = this.$refs.divToPrint;
+            const el = this.$refs.divToImg;
             // add option type to get the image version
             // if not provided the promise will return 
             // the canvas.
@@ -78,19 +77,24 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    flex: 1 0 32%;
+    max-width: 32%;
+    margin: 5px;
 }
 
 .description {
-    padding: 8px;
+    font-size: 0.75em;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
-#divToPrint {
+#divToImg {
     border: 1px solid;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Courier New', Courier, monospace;
-    max-width: 400px;
 }
 </style>

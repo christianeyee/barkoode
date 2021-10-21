@@ -10,7 +10,11 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "file-saver": "^2.0.5",
+    "html-to-pdfmake": "^2.3.5",
     "jsbarcode": "^3.11.5",
+    "jspdf": "^2.4.0",
+    "pdfmake": "^0.2.2",
+    "regenerator-runtime": "^0.13.9",
     "vue": "^2.6.11",
     "vue-html2canvas": "0.0.4",
     "vuetify": "^2.4.0"
