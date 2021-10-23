@@ -1,20 +1,12 @@
 <template>
   <v-card flat>
-    <v-form
-      ref="form"
-      @submit.prevent="submit"
-    >
+    <v-form ref="form" @submit.prevent="submit">
       <v-container fluid>
         <v-row class="d-flex justify-center">
-            <p class="text-h3 text-center mt-3">
-                Print barcodes.
-            </p>
+          <p class="text-h3 text-center mt-3">Print barcodes.</p>
         </v-row>
         <v-row>
-          <v-col
-            cols="8"
-            sm="6"
-          >
+          <v-col cols="8" sm="6">
             <v-text-field
               v-model="form.code"
               :rules="rules.item"
@@ -24,10 +16,7 @@
               required
             ></v-text-field>
           </v-col>
-          <v-col
-            cols="8"
-            sm="6"
-          >
+          <v-col cols="8" sm="6">
             <v-text-field
               v-model="form.description"
               :rules="rules.item"
@@ -37,10 +26,7 @@
               required
             ></v-text-field>
           </v-col>
-          <v-col
-            cols="8"
-            sm="6"
-          >
+          <v-col cols="8" sm="6">
             <v-text-field
               v-model.number="form.price"
               :rules="rules.price"
@@ -60,100 +46,82 @@
               required
             >
               <template v-slot:label>
-                <div>
-                  Serial Numbers
-                </div>
+                <div>Serial Numbers</div>
               </template>
             </v-textarea>
           </v-col>
         </v-row>
       </v-container>
       <v-card-actions>
-        <v-btn
-          text
-          outlined
-          @click="resetForm"
-        >
-          Reset
-        </v-btn>
+        <v-btn text outlined @click="resetForm">Reset</v-btn>
         <v-spacer></v-spacer>
-        <v-btn
-          :disabled="!formIsValid"
-          text
-          outlined 
-          color="primary"
-          type="submit"
-        >
-          Print
-        </v-btn>
+        <v-btn :disabled="!formIsValid" text outlined color="primary" type="submit">Print</v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
 </template>
 
 <script>
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'PHP',
+const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "PHP"
 });
 
 export default {
-  data () {
+  data() {
     const defaultForm = Object.freeze({
-      code: '',
-      description: '',
-      serials: '',
-      price: null,
-    })
+      code: "",
+      description: "",
+      serials: "",
+      price: null
+    });
 
     return {
       form: Object.assign({}, defaultForm),
       rules: {
-        price: [
-          val => val > 0 || `Invalid price!`,
-        ],
-        item: [val => (val || '').length > 0 || 'This field is required.'],
+        price: [val => val > 0 || `Invalid price!`],
+        item: [val => (val || "").length > 0 || "This field is required."]
       },
-      defaultForm,
-    }
+      defaultForm
+    };
   },
 
   computed: {
-    formIsValid () {
+    formIsValid() {
       return (
         this.form.code &&
         this.form.description &&
         this.form.serials &&
         this.form.price > 0
-      )
-    },
+      );
+    }
   },
 
   methods: {
-    resetForm () {
-      this.$refs.form.reset()
-      this.form = Object.assign({}, this.defaultForm)
+    resetForm() {
+      this.$refs.form.reset();
+      this.form = Object.assign({}, this.defaultForm);
     },
-    submit () {
-        const price = formatter.format(this.form.price)
-        const description = this.form.description.toUpperCase();
-        const code = this.form.code.toUpperCase();
+    submit() {
+      const price = formatter.format(this.form.price);
+      const description = this.form.description.toUpperCase();
+      const code = this.form.code.toUpperCase();
 
-        const tags = []
-        const serialNumbers = [...new Set(this.form.serials.split("\n"))]
-        for (const serial of serialNumbers) {
-            if (serial.trim().length > 0) {
-              tags.push({
-                code,
-                description,
-                price,
-                serial
-              })
-            }
+      const tags = [];
+      const serialNumbers = [...new Set(this.form.serials.split("\n"))];
+      for (const serial of serialNumbers) {
+        if (serial.trim().length > 0) {
+          tags.push({
+            code,
+            description,
+            price,
+            serial
+          });
         }
-        this.form.serials = ''
-        this.$emit('preview', tags);
-    },
-  },
+      }
+      this.form.serials = "";
+      this.$emit("preview", tags);
+    }
+  }
 };
 </script>
