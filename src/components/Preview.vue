@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <p class="text-h4 mt-3"># of barcodes: {{items.length}}</p>
+  <div class="container text-right">
     <v-btn :disabled="items.length == 0" text color="primary" @click="printDocument">Export as PDF</v-btn>
     <div id="divToPrint">
       <PreviewCard v-for="item in items" :key="item.serial" :item="item"></PreviewCard>
@@ -47,7 +46,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 #divToPrint {

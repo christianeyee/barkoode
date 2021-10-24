@@ -10,8 +10,6 @@
         {{ item.code }}
       </div>
     </div>
-    <!-- <img id="barcodeImg" :src="output" style="display:none">
-    <canvas id="barcodeCanvas" style="display:none; width:400; height:198;"></canvas>-->
   </div>
 </template>
 
@@ -65,12 +63,12 @@ export default {
           0,
           0,
           img.width,
-          img.height, // source rectangle
+          img.height,
           0,
           0,
           canvas.width,
           canvas.height
-        ); // destination rectangle
+        );
 
         canvas.toBlob(function(blob) {
           saveAs(blob, "barcode.png");

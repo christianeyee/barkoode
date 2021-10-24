@@ -3,13 +3,13 @@
     <v-form ref="form" @submit.prevent="submit">
       <v-container fluid>
         <v-row class="d-flex justify-center">
-          <transition name="slide-title" appear>
+          <transition name="show-title" appear>
             <p class="text-h3 text-center mt-3">Print barcodes.</p>
           </transition>
         </v-row>
-        <transition name="slide-form" appear>
+        <transition name="show-form" appear>
           <v-row>
-            <v-col cols="8" sm="6">
+            <v-col cols="auto" sm="4">
               <v-text-field
                 v-model="form.code"
                 :rules="rules.item"
@@ -19,7 +19,7 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="8" sm="6">
+            <v-col cols="auto" sm="4">
               <v-text-field
                 v-model="form.description"
                 :rules="rules.item"
@@ -29,7 +29,7 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="8" sm="6">
+            <v-col cols="auto" sm="4">
               <v-text-field
                 v-model.number="form.price"
                 :rules="rules.price"
@@ -56,11 +56,13 @@
           </v-row>
         </transition>
       </v-container>
-      <v-card-actions>
-        <v-btn text outlined @click="resetForm">Reset</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn :disabled="!formIsValid" text outlined color="primary" type="submit">Print</v-btn>
-      </v-card-actions>
+      <transition name="show-btns" appear>
+        <v-card-actions>
+          <v-btn text outlined @click="resetForm">Reset</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn :disabled="!formIsValid" text outlined color="primary" type="submit">Print</v-btn>
+        </v-card-actions>
+      </transition>
     </v-form>
   </v-card>
 </template>
@@ -105,6 +107,7 @@ export default {
     resetForm() {
       this.$refs.form.reset();
       this.form = Object.assign({}, this.defaultForm);
+      this.$emit("preview", []);
     },
     submit() {
       const price = formatter.format(this.form.price);
@@ -131,21 +134,30 @@ export default {
 </script>
 
 <style scoped>
-.slide-title-enter {
+.show-title-enter {
   transform: translateX(-200px);
   opacity: 0;
 }
 
-.slide-title-enter-active {
+.show-title-enter-active {
   transition: all 0.5s ease-out;
 }
 
-.slide-form-enter {
+.show-form-enter {
   transform: translateY(200px);
   opacity: 0;
 }
 
-.slide-form-enter-active {
+.show-form-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.show-btns-enter {
+  transform: translateX(200px);
+  opacity: 0;
+}
+
+.show-btns-enter-active {
   transition: all 0.5s ease-out;
 }
 </style>
