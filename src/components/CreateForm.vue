@@ -3,54 +3,58 @@
     <v-form ref="form" @submit.prevent="submit">
       <v-container fluid>
         <v-row class="d-flex justify-center">
-          <p class="text-h3 text-center mt-3">Print barcodes.</p>
+          <transition name="slide-title" appear>
+            <p class="text-h3 text-center mt-3">Print barcodes.</p>
+          </transition>
         </v-row>
-        <v-row>
-          <v-col cols="8" sm="6">
-            <v-text-field
-              v-model="form.code"
-              :rules="rules.item"
-              color="blue darken-2"
-              label="Item Code"
-              outlined
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="8" sm="6">
-            <v-text-field
-              v-model="form.description"
-              :rules="rules.item"
-              color="blue darken-2"
-              label="Item Description"
-              outlined
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="8" sm="6">
-            <v-text-field
-              v-model.number="form.price"
-              :rules="rules.price"
-              color="blue darken-2"
-              label="Price"
-              outlined
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-textarea
-              v-model="form.serials"
-              color="teal"
-              hint="One serial number per line"
-              persistent-hint
-              outlined
-              required
-            >
-              <template v-slot:label>
-                <div>Serial Numbers</div>
-              </template>
-            </v-textarea>
-          </v-col>
-        </v-row>
+        <transition name="slide-form" appear>
+          <v-row>
+            <v-col cols="8" sm="6">
+              <v-text-field
+                v-model="form.code"
+                :rules="rules.item"
+                color="blue darken-2"
+                label="Item Code"
+                outlined
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="8" sm="6">
+              <v-text-field
+                v-model="form.description"
+                :rules="rules.item"
+                color="blue darken-2"
+                label="Item Description"
+                outlined
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="8" sm="6">
+              <v-text-field
+                v-model.number="form.price"
+                :rules="rules.price"
+                color="blue darken-2"
+                label="Price"
+                outlined
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-textarea
+                v-model="form.serials"
+                color="teal"
+                hint="One serial number per line"
+                persistent-hint
+                outlined
+                required
+              >
+                <template v-slot:label>
+                  <div>Serial Numbers</div>
+                </template>
+              </v-textarea>
+            </v-col>
+          </v-row>
+        </transition>
       </v-container>
       <v-card-actions>
         <v-btn text outlined @click="resetForm">Reset</v-btn>
@@ -125,3 +129,23 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.slide-title-enter {
+  transform: translateX(-200px);
+  opacity: 0;
+}
+
+.slide-title-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.slide-form-enter {
+  transform: translateY(200px);
+  opacity: 0;
+}
+
+.slide-form-enter-active {
+  transition: all 0.5s ease-out;
+}
+</style>
